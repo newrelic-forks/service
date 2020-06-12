@@ -80,12 +80,12 @@ const (
 	optionPrefix               = "Prefix"
 	optionPrefixDefault        = "application"
 
-	optionRunWait      = "RunWait"
-	optionReloadSignal = "ReloadSignal"
-	optionPIDFile      = "PIDFile"
+	optionRunWait            = "RunWait"
+	optionReloadSignal       = "ReloadSignal"
+	optionPIDFile            = "PIDFile"
 	optionLimitNOFILE        = "LimitNOFILE"
 	optionLimitNOFILEDefault = -1 // -1 = don't set in configuration
-	optionRestart      = "Restart"
+	optionRestart            = "Restart"
 
 	optionSuccessExitStatus = "SuccessExitStatus"
 
@@ -324,6 +324,11 @@ type Interface interface {
 	// It should not take more then a few seconds to execute.
 	// Stop should not call os.Exit directly in the function.
 	Stop(s Service) error
+
+	// Shutdown provides a place to clean up program execution when the system is being shutdown.
+	// It is essentially the same as Stop but for the case where machine is being shutdown/restarted
+	// instead of just normally stopping the service.
+	Shutdown(s Service) error
 }
 
 // TODO: Add Configure to Service interface.

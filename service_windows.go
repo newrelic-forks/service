@@ -2,8 +2,6 @@
 // Use of this source code is governed by a zlib-style
 // license that can be found in the LICENSE file.
 
-// +build windows
-
 package service
 
 import (
@@ -20,36 +18,6 @@ import (
 	"golang.org/x/sys/windows/svc/eventlog"
 	"golang.org/x/sys/windows/svc/mgr"
 )
-
-// Interface represents the service interface for a program. Start runs before
-// the hosting process is granted control and Stop runs when control is returned.
-//
-//   1. OS service manager executes user program.
-//   2. User program sees it is executed from a service manager (IsInteractive is false).
-//   3. User program calls Service.Run() which blocks.
-//   4. Interface.Start() is called and quickly returns.
-//   5. User program runs.
-//   6. OS service manager signals the user program to stop.
-//   7. Interface.Stop() is called and quickly returns.
-//      - For a successful exit, os.Exit should not be called in Interface.Stop().
-//   8. Service.Run returns.
-//   9. User program should quickly exit.
-type Interface interface {
-	// Start provides a place to initiate the service. The service doesn't
-	// signal a completed start until after this function returns, so the
-	// Start function must not take more then a few seconds at most.
-	Start(s Service) error
-
-	// Stop provides a place to clean up program execution before it is terminated.
-	// It should not take more then a few seconds to execute.
-	// Stop should not call os.Exit directly in the function.
-	Stop(s Service) error
-
-	// Shutdown provides a place to clean up program execution when the system is being shutdown.
-	// It is essentially the same as Stop but for the case where machine is being shutdown/restarted
-	// instead of just normally stopping the service.
-	Shutdown(s Service) error
-}
 
 const version = "windows-service"
 
