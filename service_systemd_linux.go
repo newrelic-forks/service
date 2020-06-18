@@ -72,7 +72,7 @@ func (s *systemd) configPath() (cp string, err error) {
 		cp = "/etc/systemd/system/" + s.Config.Name + ".service"
 		return
 	}
-	homeDir, err := os.UserHomeDir()
+	homeDir, err := UserHomeDir()
 	if err != nil {
 		return
 	}
@@ -81,7 +81,7 @@ func (s *systemd) configPath() (cp string, err error) {
 	if err != nil {
 		return
 	}
-	cp = filepath.Join(systemdUserDir, s.Config.Name + ".service")
+	cp = filepath.Join(systemdUserDir, s.Config.Name+".service")
 	return
 }
 
